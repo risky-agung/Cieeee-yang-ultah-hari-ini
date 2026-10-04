@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <style>
+        /* Gaya Tampilan Utama */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fed6e3 0%, #a8c1ef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 350px;
+            width: 100%;
+            transition: transform 0.3s ease;
+            z-index: 10; /* Agar kartu tetap di atas balon */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #ff4a75;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .hidden-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff0f3;
+            border-left: 5px solid #ff4a75;
+            border-radius: 4px;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        button {
+            background-color: #ff4a75;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 74, 117, 0.4);
+            transition: 0.2s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #e03862;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Gaya untuk Animasi Balon */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 60px;
+            height: 75px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: floatUp 4s ease-in forwards;
+            opacity: 0.85;
+        }
+
+        /* Tali balon */
+        .balloon::after {
+            content: "▲";
+            color: inherit;
+            font-size: 10px;
+            position: absolute;
+            bottom: -8px;
+            left: 25px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div style="font-size: 50px;">🎂</div>
+        <h1>Happy Birthday!</h1>
+        <p>Hari ini adalah hari yang spesial untukmu. Semoga tahun ini penuh dengan kebahagiaan, kesehatan, dan kesuksesan!</p>
+        
+        <button id="btnKlik">Klik untuk Kejutan</button>
+
+        <div id="pesanRahasia" class="hidden-message">
+            <p><strong>✨ Harapan Spesial: ✨</strong><br>
+            "Terima kasih sudah menjadi orang yang luar biasa. Semoga semua impian dan cita-citamu segera tercapai! 💖"</p>
+        </div>
+    </div>
+
+    <script>
+        const tombol = document.getElementById('btnKlik');
+        const pesan = document.getElementById('pesanRahasia');
+        
+        // Daftar warna balon warna-warni
+        const colors = ['#ff4a75', '#ffb347', '#ffcc5c', '#96ceb4', '#9bf6ff', '#a0c4ff', '#bdb2ff', '#ffc6ff'];
+
+        tombol.addEventListener('click', function() {
+            pesan.style.display = 'block';
+            tombol.style.display = 'none'; 
+
+            // Membuat 30 balon secara acak setelah tombol diklik
+            for (let i = 0; i < 30; i++) {
+                createBalloon();
+            }
+        });
+
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+
+            // Mengatur posisi horizontal acak (0% sampai 100% lebar layar)
+            const randomX = Math.random() * 100;
+            balloon.style.left = randomX + 'vw';
+
+            // Mengatur warna acak dari daftar warna
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.backgroundColor = randomColor;
+            balloon.style.color = randomColor; // Untuk warna tali segi tiga di bawah balon
+
+            // Mengatur jeda animasi acak agar balon tidak terbang bersamaan
+            const randomDelay = Math.random() * 2;
+            balloon.style.animationDelay = randomDelay + 's';
+
+            // Mengatur ukuran balon acak sedikit agar bervariasi
+            const randomScale = 0.7 + Math.random() * 0.5;
+            balloon.style.transform = `scale(${randomScale})`;
+
+            document.body.appendChild(balloon);
+
+            // Menghapus elemen balon dari halaman setelah animasinya selesai
+            setTimeout(() => {
+                balloon.remove();
+            }, (4 + randomDelay) * 1000);
+        }
+    </script>
+
+</body>
+</html>
